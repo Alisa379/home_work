@@ -6,24 +6,17 @@
 
 class functor {
 public:
-    int get_sum = []() {
-        int sum = 0;
-        for (auto i = this.begin(); i < this.end(); ++i) {
-            if (i % 3 == 0) {
-                sum += i;
-            }
-        }
+    int sum = 0, count = 0;
+    int get_sum() {
         return sum;
-    };
-    int get_count = []() {
-        int count = 0;
-        for (auto i = this.begin(); i < this.end(); ++i) {
-            if (i % 3 == 0) {
-                count += 1;
-            }
-        }
+    }
+    int get_count() {
         return count;
-        };
+    }
+    void operator()(int value) {
+        sum += value;
+        count++;
+    }
 };
 
 int main()

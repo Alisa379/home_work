@@ -12,6 +12,12 @@ public:
             array[i] = new T [columns];
         }
     }
+    table(T& f) : rows(f.rows), columns(f.columns) {
+        array = new T * [rows];
+        for (int i = 0; i < rows; ++i) {
+            array[i] = new T[columns];
+        }
+    }
     T* operator[](int s) {
         return array[s];
     }
@@ -21,20 +27,20 @@ public:
     
     T& operator=(const T& other) {
         if (this != &other) {
-            delete[] array;
-            rows = other.rows;
-            columns = other.columns;
-            auto array = table<int>(rows, columns);
-            for (int i = 0; i < rows; ++i) {
-                array[i] = new T[columns];
+            delete[] this->array;
+            this.array = new T * [other.rows];
+            this.rows = other.rows;
+            this.columns = other.columns;
+            for (int i = 0; i < this.rows; ++i) {
+                this.array[i] = new T[this.columns];
             }
-            for (int i = 0; i < rows; ++i) {
-                for (int j = 0; j < columns; ++j) {
-                    array[i][j] = other.array[i][j];
+            for (int i = 0; i < this.rows; ++i) {
+                for (int j = 0; j < this.columns; ++j) {
+                    this.array[i][j] = other.array[i][j];
                 }
             }
         }
-        return *this;
+        return this;
     }
     
 };
@@ -52,12 +58,20 @@ int main()
 
     const table<int> tt(2, 3);
     tt[0][0] = 4;
-    std::cout << tt[0][0];
+    std::cout << tt[0][0] << std::endl;
 
    
     table<int> t1(2, 3);
     table<int> t2(2, 3);
 
-    t1 = t2;
-   
+    t1[0][0] = -1;
+    t2 = t1;
+    std::cout << t1[0][0] << std::endl;
+    std::cout << t2[0][0] << std::endl;
+
+    table<int> t3(2, 3);
+    t3[0][0] = 10;
+    table<int> t4(t3);
+    std::cout << t3[0][0] << std::endl;
+    std::cout << t4[0][0] << std::endl;
 }
